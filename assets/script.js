@@ -1,9 +1,17 @@
+// Set global variables
+
 var title = document.querySelector('#title');
 var startButton = document.querySelector('#start-button');
 var timerDisplay = document.querySelector('#timer');
 var description = document.querySelector('#game-description');
-var viewHighscore = document.querySelector('#highscore');
+var resultDisplay = document.querySelector('#result');
 
+var viewHighscore = document.querySelector('#highscore');
+var clearButton = document.querySelector('#clear-button');
+var retakeButton = document.querySelector('#retake-button');
+var input = document.querySelector('#input');
+var inputInfo = document.querySelector('#input-info');
+var highscoreTable = document.querySelector('#highscore-table');
 var buttons = document.querySelectorAll('#button-div');
 
 var answer1 = document.querySelector('#answer1');
@@ -14,7 +22,17 @@ var answer4 = document.querySelector('#answer4');
 var inputBtn = document.querySelector('#input-btn');
 
 var secondsLeft = 60;
+var highscoreArray = [];
+var timer;
+var questionCount = -1;
 
+answer1.style.display = 'none';
+answer2.style.display = 'none';
+answer3.style.display = 'none';
+answer4.style.display = 'none';
+
+clearButton.style.visibility = 'hidden';
+retakeButton.style.visibility = 'hidden';
 
 
 // Array of objects for each question of the quiz
@@ -146,29 +164,135 @@ answer1.addEventListener('click', function(){
     nextQuestion();
 });
 
+//check to see if answer 2 is the correct answer
+answer2.addEventListener('click', function(){
+    resultDisplay.style.display = 'block';
+
+    if(arrayOfQuestions[questionCount].correctAnswer === 2){
+        resultDisplay.textContent = 'Correct!';
+        displayResult();
+    }
+    else{
+        resultDisplay.textContent = 'Incorrect!';
+        secondsLeft = secondsLeft - 5;
+        displayResult();
+    }
+
+    nextQuestion();
+});
+
+// check to see if answer 3 is the correct answer
+answer3.addEventListener('click', function(){
+    resultDisplay.style.display = 'block';
+
+    if(arrayOfQuestions[questionCount].correctAnswer === 3){
+        resultDisplay.textContent = 'Correct!';
+        displayResult();
+    }
+    else{
+        resultDisplay.textContent = 'Incorrect!';
+        secondsLeft = secondsLeft - 5;
+        displayResult();
+    }
+
+    nextQuestion();
+});
+
+// check to see if answer 4 is the correct answer
+answer4.addEventListener('click', function(){
+    resultDisplay.style.display = 'block';
+
+    if(arrayOfQuestions[questionCount].correctAnswer === 4){
+        resultDisplay.textContent = 'Correct!';
+        displayResult();
+    }
+    else{
+        resultDisplay.textContent = 'Incorrect!';
+        secondsLeft = secondsLeft - 5;
+        displayResult();
+    }
+
+    nextQuestion();
+});
+
+// function ends quiz and lets user submit initials to record score
 function endQuiz() {
     questionCard.style.display = "none"
     finalCard.style.display = "block"
     submitBtn.addEventListener("click", addInitials);
 }
 
+// function to let user save their highscore in localStorage
 function addInitials(event){
     event.preventDefault()
     localStorage.setItem("highscore1", "5")
 }
 
-//check to see if answer 2 is the correct answer
-
-//check to see if answer 3 is the correct answer
-
-//check to see if answer 4 is the correct answer
 
 //Run a timer during the quiz. Display time left for user in the nav bar
+function setTime(){
+    title.style.display = 'none';
+
+    timer = setInterval(function() {
+        secondsLeft--;
+        timerDisplay.textContent = 'Time Left: ' + secondsLeft;
+
+        if(secondsLeft < 0){
+            clearInterval(timer);
+            endQuiz();
+        }
+
+    }, 1000);
+}
 
 // Display correct/incorrect at bottom of the screen
+function displayResult() {
+    var resultTime = 2;
+
+    var resultTimer = setInterval(() => {
+        resultTime--;
+
+        if(resultTime === 0){
+            resultDisplay.style.display = 'none';
+            clearInterval(resultTimer);
+        }
+    }, 1000);
+
+}
 
 // Grab the next question out of the array of questions
+function nextQuestion(){
 
-// Show the user thier score and notify them that the game is over
+    if(questionCount === 4){
+        endQuiz();
+        clearInterval(timer);
+        timerDisplay.textContent = 'Time Left: ';
+    }
+    else{
+        questionCount = questionCount + 1;
+        description.textContent = arrayOfQuestions[questionCount].question;
+    }
+
+    answer1.textContent = arrayOfQuestions[questionCount].firstAnswer;
+    answer2.textContent = arrayOfQuestions[questionCount].secondAnswer;
+    answer3.textContent = arrayOfQuestions[questionCount].thirdAnswer;
+    answer4.textContent = arrayOfQuestions[questionCount].fourthAnswer;
+}
+
+// Show the user their score and notify them that the game is over
+function endQuiz(){
+    timerDisplay.textContent = 'Time Left: 0';
+    clearInterval(timer);
+
+    title.textContent = 'Finished!'
+    title.style.display = 'block';
+
+    if(secondsLeft < 0){
+        description.textContent = 'Your score is 0. Enter your initials to track your highscore.';
+    }
+    else{
+        description.textContent = 'Your score is ' + secondsLeft + '. Enter your initials to track your highscore.';
+    }
+}
 
 // When you click the input button it shows a list of highscores

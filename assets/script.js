@@ -11,6 +11,8 @@ var answer2 = document.querySelector('#answer2');
 var answer3 = document.querySelector('#answer3');
 var answer4 = document.querySelector('#answer4');
 
+var inputBtn = document.querySelector('#input-btn');
+
 var secondsLeft = 60;
 
 
@@ -82,26 +84,67 @@ var arrayOfQuestions = [
         'correctAnswer': 1
     },
     {
-        'question': 'Inside which HTML element do we put the JavaScript?',
-        'firstAnswer': '1) <javascript>',
-        'secondAnswer': '2) <js>',
-        'thirdAnswer': '3) <script>',
-        'fourthAnswer': '4) <scripting>',
+        'question': 'If I wanted to apply changes to every value within an array, what would be the best way to do so?',
+        'firstAnswer': '1) Apply the change to each value individually, line by line',
+        'secondAnswer': '2) Use an if/else statement',
+        'thirdAnswer': '3) Use a for loop',
+        'fourthAnswer': '4) Array.apply()',
         'correctAnswer': 3
     },
     {
-        'question': 'Inside which HTML element do we put the JavaScript?',
-        'firstAnswer': '1) <javascript>',
-        'secondAnswer': '2) <js>',
-        'thirdAnswer': '3) <script>',
-        'fourthAnswer': '4) <scripting>',
-        'correctAnswer': 3
+        'question': 'Which of the following is NOT a JavaScript Data type?',
+        'firstAnswer': '1) Number',
+        'secondAnswer': '2) Container',
+        'thirdAnswer': '3) Object',
+        'fourthAnswer': '4) Boolean',
+        'correctAnswer': 2
     },
 
 ]
 
+// By pressing the start button you make all the question buttons visible and make the start button not visible
+startButton.addEventListener('click', function(event){
+    questionCount = -1;
+    secondsLeft = 60;
+
+    clearButton.style.visibility = 'hidden';
+
+    description.style.display = 'block';
+
+    input.classList.remove('visible');
+    input.classList.add('invisible');
+
+    viewHighscore.classList.remove('d-table');
+    viewHighscore.classList.add('d-none');
+
+    startButton.style.display = 'none';
+    answer1.style.display = 'block';
+    answer2.style.display = 'block';
+    answer3.style.display = 'block';
+    answer4.style.display = 'block';
+    nextQuestion();
+    setTime();
+
+})
 
 
+
+//check to see if answer 1 is the correct answer
+answer1.addEventListener('click', function(){
+    resultDisplay.style.display = 'block';
+
+    if(arrayOfQuestions[questionCount].correctAnswer === 1){
+        resultDisplay.textContent = 'Correct!';
+        displayResult();
+    }
+    else{
+        resultDisplay.textContent = 'Incorrect!';
+        secondsLeft = secondsLeft - 5;
+        displayResult();
+    }
+
+    nextQuestion();
+});
 
 function endQuiz() {
     questionCard.style.display = "none"
@@ -113,3 +156,19 @@ function addInitials(event){
     event.preventDefault()
     localStorage.setItem("highscore1", "5")
 }
+
+//check to see if answer 2 is the correct answer
+
+//check to see if answer 3 is the correct answer
+
+//check to see if answer 4 is the correct answer
+
+//Run a timer during the quiz. Display time left for user in the nav bar
+
+// Display correct/incorrect at bottom of the screen
+
+// Grab the next question out of the array of questions
+
+// Show the user thier score and notify them that the game is over
+
+// When you click the input button it shows a list of highscores

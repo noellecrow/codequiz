@@ -126,14 +126,15 @@ startButton.addEventListener('click', function(event){
     secondsLeft = 60;
 
     clearButton.style.visibility = 'hidden';
+    retakeButton.style.visibility = 'hidden';
 
     description.style.display = 'block';
 
     input.classList.remove('visible');
     input.classList.add('invisible');
 
-    viewHighscore.classList.remove('d-table');
-    viewHighscore.classList.add('d-none');
+    highscoreTable.classList.remove('d-table');
+    highscoreTable.classList.add('d-none');
 
     startButton.style.display = 'none';
     answer1.style.display = 'block';
@@ -293,6 +294,66 @@ function endQuiz(){
     else{
         description.textContent = 'Your score is ' + secondsLeft + '. Enter your initials to track your highscore.';
     }
+    input.classList.remove('invisible');
+    input.classList.add('visible');
+
+    answer1.style.display = 'none';
+    answer2.style.display = 'none';
+    answer3.style.display = 'none';
+    answer4. style.display = 'none';
 }
 
 // When you click the input button it shows a list of highscores
+var numHighscore = 0;
+
+inputBtn.addEventListener('click', function(){
+    highscoreArray = [];
+
+    numHighscore++;
+
+    input.classList.remove('visible');
+    input.classList.add('invisible');
+    input.value = '';
+
+    if(secondsLeft < 0){
+        highscoreTable.insertRow().innerHTML = '<th>' + numHighscore + '</th><td>' + inputValue.value + '</td><td>0</td>';
+    }
+    else {
+        highscoreTable.insertRow().innerHTML = '<th>' + numHighscore + '</th><td>' + inputValue.value + '</td><td>' + secondsLeft + '</td>';
+    }
+
+    displayHighscoreTable();
+})
+
+// Display highscore table... needed for input and view highscore buttons
+function displayHighscoreTable(){
+    clearButton.style.visibility = 'visible';
+    retakeButton.style.visibility = 'visible';
+
+    title.textContent = 'Highscores';
+    description.style.display = 'none';
+
+    highscoreTable.classList.remove('d-none');
+    highscoreTable.classList.add('table');
+
+    //Put scores into array
+    for(i=0; i<(highscoreTable.ariaRowSpan.length-1); i++)
+    {
+        highscoreArray[i] = highscoreTable.row[(i+1)].cells[2].innerText;
+    }
+
+    //Sort scores from lowest to highest
+    highscoreArray.sort(function(a, b){return a-b});
+
+    // FIll empty array to sort innerHTML of each highscore from lowest to highest
+    var holdInnerHTML = [];
+
+    for(i=0; i<highscoreArray.length; i++){
+        for(j=1; j<=highscoreArray.length; j++){
+            if(highscoreArray[i] === highscoreTable.rows[j].cells[2].innerText){
+                holdInnerHTML[i] = highscoreTable.rows[j].innerHTML;
+            }
+        }
+    }
+
+}

@@ -15,7 +15,7 @@
 <!-- Nav bar elements-->
 <header>
     <nav>
-        <button id="highscore">View Highscores</button>
+
         <h2 id="timer">Time Left: 60</h2>
     </nav>
 </header>
@@ -41,10 +41,24 @@
 </div>
 
 <!-- Highscore Table-->
+<table id='highscore-table' class='table d-none w-50 mx-auto'>
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Score</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 
 <!-- Start/Clear buttons-->
 <button class="btn" id="start-button">Start Quiz</button>
-<button class="btn" id="clear-button">End Quiz</button>
+<div id="btn-section">
+<button class="btn-score" id="clear-button">Clear Scores</button>
+<button class="btn-score" id="retake-button">Try Again!</button>
+</div>
+
+
 <span class="btn" id="result">Correct</span>
 
 

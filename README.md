@@ -10,3 +10,4 @@ link: https://github.com/noellecrow/pinkmacarons
 
 
 Screenshot
+![Alt text](./assets/codequiz.png)
